@@ -19,7 +19,7 @@ Decided to challenge my housemates to do this year's AoC challenge usnig a diffe
 15. Scala
 16. Ballerina
 17. Elixir
-18- C++
+18. C++
 19. Go
 20. Reasonml
 21. Rust
