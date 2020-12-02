@@ -1,6 +1,6 @@
 # AdventOfCode2020 - 1 day, 1 language
 
-Decided to challenge my housemates to do this year's AoC challenge usnig a different language each day. We listed all languages we could think of, vetoed some of them and ordered the remaining randomly. This was the result:
+Decided to challenge my housemates to do this year's AoC using a different language each day. We listed all languages we could think of, vetoed some of them and ordered the remaining randomly. This was the result:
 
 1. Clojure
 2. Bash
