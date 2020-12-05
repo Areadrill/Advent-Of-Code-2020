@@ -126,7 +126,7 @@ process passports =
   let
     validAttributes = (List.filter validate (String.split "\n\n" passports))
   in
-  String.fromInt (List.foldl isValid 0 (List.map validateData validAttributes))
+  String.fromInt (List.length (List.filter validateData validAttributes))
 
 validate: String -> Bool
 validate passport = 
@@ -139,22 +139,25 @@ validateData: String -> Bool
 validateData  passport = 
   let 
     attributes = Array.fromList (List.sort (List.filter notCidFull (parseAttributes passport)))
-    birthYearVerdict = validBirthYear (String.dropLeft 4 (Maybe.withDefault "???" (Array.get 0 attributes)))
+    
+    birthYearVerdict = validBirthYear (getAttributeFromPassport attributes 0)
 
-    eyeColorVerdict = validEyeColor (String.dropLeft 4 (Maybe.withDefault "???" (Array.get 1 attributes)))
+    eyeColorVerdict = validEyeColor (getAttributeFromPassport attributes 1)
 
-    expirationYearVerdict = validExpirationYear (String.dropLeft 4 (Maybe.withDefault "???" (Array.get 2 attributes)))
+    expirationYearVerdict = validExpirationYear (getAttributeFromPassport attributes 2)
 
-    hairColorVerdict = validHairColor (String.dropLeft 4 (Maybe.withDefault "???" (Array.get 3 attributes)))
+    hairColorVerdict = validHairColor (getAttributeFromPassport attributes 3)
 
-    heightVerdict = validHeight (String.dropLeft 4 (Maybe.withDefault "???" (Array.get 4 attributes)))
+    heightVerdict = validHeight (getAttributeFromPassport attributes 4)
 
-    issueYearVerdict = validIssueYear (String.dropLeft 4 (Maybe.withDefault "???" (Array.get 5 attributes)))
+    issueYearVerdict = validIssueYear (getAttributeFromPassport attributes 5)
 
-    pidVerdict = validPid (String.dropLeft 4 (Maybe.withDefault "???" (Array.get 6 attributes)))
+    pidVerdict = validPid (getAttributeFromPassport attributes 6)
   in
     birthYearVerdict && eyeColorVerdict && expirationYearVerdict && hairColorVerdict && heightVerdict && issueYearVerdict && pidVerdict
 
+getAttributeFromPassport: Array.Array String-> Int -> String
+getAttributeFromPassport attributes idx = (String.dropLeft 4 (Maybe.withDefault "???" (Array.get idx attributes)))
 
 parseAttributes: String -> List String
 parseAttributes passport = 
@@ -168,13 +171,6 @@ attributeNames attributes =
 isEmpty: String -> Bool
 isEmpty attribute = (String.length attribute) > 0
 
-isValid: Bool -> Int -> Int
-isValid valid accum = 
-    if valid then
-      accum + 1
-    else
-      accum
-
 notCid: String -> Bool
 notCid attribute = 
   attribute /= "cid"
@@ -186,7 +182,6 @@ notCidFull attribute =
   else
     True
 -- VIEW
-
 
 view : Model -> Html Msg
 view model =

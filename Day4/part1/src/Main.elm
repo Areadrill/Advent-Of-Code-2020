@@ -52,8 +52,7 @@ update msg model =
 
 process: String -> String
 process passports =
-  String.fromInt (List.foldl isValid 0 (List.map validate (String.split "\n\n" passports)))
-
+  String.fromInt (List.length (List.filter validate (String.split "\n\n" passports)))
 
 validate: String -> Bool
 validate passport = 
@@ -69,18 +68,10 @@ attributeNames attributes =
 isEmpty: String -> Bool
 isEmpty attribute = (String.length attribute) > 0
 
-isValid: Bool -> Int -> Int
-isValid valid accum = 
-    if valid then
-      accum + 1
-    else
-      accum
-
 isCid: String -> Bool
 isCid attribute = attribute /= "cid"
 
 -- VIEW
-
 
 view : Model -> Html Msg
 view model =
